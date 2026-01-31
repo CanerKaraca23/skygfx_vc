@@ -44,7 +44,7 @@ jobs:
 
     - name: MSBuild
       run: |
-        msbuild build\skygfx.sln /p:Configuration=Release /p:Platform=Win32 /m
+        msbuild build\skygfx_vc.sln /p:Configuration=Release /p:Platform=Win32 /m
       shell: cmd
     
     - name: Convert to ASI
