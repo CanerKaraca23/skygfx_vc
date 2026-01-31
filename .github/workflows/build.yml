@@ -1,4 +1,4 @@
-name: Build SkyGfx Extended
+name: Build SkyGfxVC
 
 on:
   push:
@@ -10,10 +10,6 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - name: Check for fxc.exe
-      run: dir "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Utilities\bin\x86\fxc.exe"
-      shell: cmd
-
     - name: Checkout Repository
       uses: actions/checkout@v6
       with:
@@ -31,14 +27,8 @@ jobs:
     - name: Setup Environment
       run: |
         $rwsdkPath = Join-Path "${{ github.workspace }}" "plugin-sdk\plugin_vc\game_vc\rw"
-        echo "RWSDK36=$rwsdkPath" >> $env:GITHUB_ENV
+        echo "RWSDK34=$rwsdkPath" >> $env:GITHUB_ENV
       shell: pwsh
-    
-    - name: Install DirectX SDK
-      run: |
-        choco install directx-sdk -y
-        echo "DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)" >> %GITHUB_ENV%
-      shell: cmd
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
