@@ -30,6 +30,12 @@ jobs:
         echo "RWSDK36=$rwsdkPath" >> $env:GITHUB_ENV
       shell: pwsh
     
+    - name: Install DirectX SDK
+      run: |
+        choco install directx-sdk -y
+        echo "DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)" >> %GITHUB_ENV%
+      shell: cmd
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
     
