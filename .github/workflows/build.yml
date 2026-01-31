@@ -10,6 +10,10 @@ jobs:
     runs-on: windows-latest
     
     steps:
+    - name: Check for fxc.exe
+      run: dir "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Utilities\bin\x86\fxc.exe"
+      shell: cmd
+
     - name: Checkout Repository
       uses: actions/checkout@v6
       with:
