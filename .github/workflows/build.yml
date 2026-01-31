@@ -33,9 +33,17 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
     
-    - name: Build
+    - name: Build Solution
       run: |
         .\premake5.exe vs2022
+      shell: cmd
+
+    - name: List build directory
+      run: dir build
+      shell: cmd
+
+    - name: MSBuild
+      run: |
         msbuild build\skygfx.sln /p:Configuration=Release /p:Platform=Win32 /m
       shell: cmd
     
@@ -47,5 +55,5 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v6
       with:
-        name: SkyGfx-Extended
+        name: SkyGfxVC
         path: bin/Release/skygfx.asi
