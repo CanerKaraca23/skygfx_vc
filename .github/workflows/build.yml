@@ -73,4 +73,6 @@ jobs:
       uses: actions/upload-artifact@v6
       with:
         name: SkyGfxVC
-        path: bin/Release/skygfx.asi
+        path: |
+          bin/Release/skygfx.asi
+          external/rwd3d9/libs/rwd3d9.dll
