@@ -23,31 +23,40 @@ jobs:
         sparse-checkout: |
           plugin_vc/game_vc/rw
         sparse-checkout-cone-mode: false
-    
-    - name: Setup Environment
-      run: |
-        $rwsdkPath = Join-Path "${{ github.workspace }}" "plugin-sdk\plugin_vc\game_vc\rw"
-        echo "RWSDK34=$rwsdkPath" >> $env:GITHUB_ENV
-      shell: pwsh
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
-    
-    - name: Build Solution
+
+    - name: Setup Environment
+      run: |
+        # RWSDK path
+        $rwsdkPath = Join-Path "${{ github.workspace }}" "plugin-sdk\plugin_vc\game_vc\rw"
+        echo "RWSDK34=$rwsdkPath" >> $env:GITHUB_ENV
+        
+        # Find Windows SDK path for fxc.exe (used by premake prebuildcommands)
+        $sdkPath = "C:\Program Files (x86)\Windows Kits\10"
+        echo "DXSDK_DIR=$sdkPath\" >> $env:GITHUB_ENV
+      shell: pwsh
+
+    - name: Build rwd3d9 dependency
+      run: |
+        cd external\rwd3d9
+        ..\..\premake5.exe vs2022
+        msbuild build\rwd3d9.sln /p:Configuration=Release /p:Platform=Win32 /m
+        cd ..\..
+      shell: cmd
+
+    - name: Generate Solution
       run: |
         .\premake5.exe vs2022
       shell: cmd
 
-    - name: List build directory
-      run: dir build
-      shell: cmd
-
-    - name: MSBuild
+    - name: Build SkyGfxVC
       run: |
         msbuild build\skygfx_vc.sln /p:Configuration=Release /p:Platform=Win32 /m
       shell: cmd
     
-    - name: Convert to ASI
+    - name: Prepare Release
       run: |
         Copy-Item "bin\Release\skygfx.dll" "bin\Release\skygfx.asi"
       shell: pwsh
