@@ -67,12 +67,11 @@ jobs:
     - name: Prepare Release
       run: |
         Copy-Item "bin\Release\skygfx.dll" "bin\Release\skygfx.asi"
+        Copy-Item "external\rwd3d9\libs\rwd3d9.dll" "bin\Release\rwd3d9.dll"
       shell: pwsh
     
     - name: Upload Artifact
       uses: actions/upload-artifact@v6
       with:
         name: SkyGfxVC
-        path: |
-          bin/Release/skygfx.asi
-          external/rwd3d9/libs/rwd3d9.dll
+        path: bin/Release/
