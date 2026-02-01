@@ -8,13 +8,13 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    
+
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v6
       with:
         submodules: recursive
-    
+
     - name: Checkout plugin-sdk for RWSDK headers
       uses: actions/checkout@v6
       with:
@@ -32,7 +32,7 @@ jobs:
         # RWSDK path
         $rwsdkPath = Join-Path "${{ github.workspace }}" "plugin-sdk\plugin_vc\game_vc\rw"
         echo "RWSDK34=$rwsdkPath" >> $env:GITHUB_ENV
-        
+
         # Create a DXSDK_DIR shim that contains Utilities\bin\x86\fxc.exe
         $fxc = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin" -Recurse -Filter "fxc.exe" | Where-Object { $_.FullName -like "*\x86\*" } | Select-Object -First 1
         if (-not $fxc) {
@@ -46,14 +46,6 @@ jobs:
         echo "DXSDK_DIR=$dxsdkRoot\" >> $env:GITHUB_ENV
       shell: pwsh
 
-    - name: Build rwd3d9 dependency
-      run: |
-        cd external\rwd3d9
-        ..\..\premake5.exe vs2022
-        msbuild build\rwd3d9.sln /p:Configuration=Release /p:Platform=Win32 /m
-        cd ..\..
-      shell: cmd
-
     - name: Generate Solution
       run: |
         .\premake5.exe vs2022
@@ -63,15 +55,17 @@ jobs:
       run: |
         msbuild build\skygfx_vc.sln /p:Configuration=Release /p:Platform=Win32 /m
       shell: cmd
-    
+
     - name: Prepare Release
       run: |
         Copy-Item "bin\Release\skygfx.dll" "bin\Release\skygfx.asi"
         Copy-Item "external\rwd3d9\libs\rwd3d9.dll" "bin\Release\rwd3d9.dll"
       shell: pwsh
-    
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v6
       with:
         name: SkyGfxVC
-        path: bin/Release/
+        path: |
+          bin/Release/skygfx.asi
+          bin/Release/rwd3d9.dll
