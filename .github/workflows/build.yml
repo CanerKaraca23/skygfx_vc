@@ -33,9 +33,17 @@ jobs:
         $rwsdkPath = Join-Path "${{ github.workspace }}" "plugin-sdk\plugin_vc\game_vc\rw"
         echo "RWSDK34=$rwsdkPath" >> $env:GITHUB_ENV
         
-        # Find Windows SDK path for fxc.exe (used by premake prebuildcommands)
-        $sdkPath = "C:\Program Files (x86)\Windows Kits\10"
-        echo "DXSDK_DIR=$sdkPath\" >> $env:GITHUB_ENV
+        # Create a DXSDK_DIR shim that contains Utilities\bin\x86\fxc.exe
+        $fxc = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin" -Recurse -Filter "fxc.exe" | Where-Object { $_.FullName -like "*\x86\*" } | Select-Object -First 1
+        if (-not $fxc) {
+          echo "::error::Could not find fxc.exe in Windows Kits"
+          exit 1
+        }
+        $dxsdkRoot = Join-Path $env:RUNNER_TEMP "dxsdk"
+        $fxcDir = Join-Path $dxsdkRoot "Utilities\bin\x86"
+        New-Item -ItemType Directory -Force -Path $fxcDir | Out-Null
+        Copy-Item $fxc.FullName (Join-Path $fxcDir "fxc.exe") -Force
+        echo "DXSDK_DIR=$dxsdkRoot\" >> $env:GITHUB_ENV
       shell: pwsh
 
     - name: Build rwd3d9 dependency
