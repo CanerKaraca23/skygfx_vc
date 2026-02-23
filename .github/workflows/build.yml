@@ -1,0 +1,71 @@
+name: Build SkyGfxVC
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v6
+      with:
+        submodules: recursive
+
+    - name: Checkout plugin-sdk for RWSDK headers
+      uses: actions/checkout@v6
+      with:
+        repository: DK22Pac/plugin-sdk
+        path: plugin-sdk
+        sparse-checkout: |
+          plugin_vc/game_vc/rw
+        sparse-checkout-cone-mode: false
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup Environment
+      run: |
+        # RWSDK path
+        $rwsdkPath = Join-Path "${{ github.workspace }}" "plugin-sdk\plugin_vc\game_vc\rw"
+        echo "RWSDK34=$rwsdkPath" >> $env:GITHUB_ENV
+
+        # Create a DXSDK_DIR shim that contains Utilities\bin\x86\fxc.exe
+        $fxc = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin" -Recurse -Filter "fxc.exe" | Where-Object { $_.FullName -like "*\x86\*" } | Select-Object -First 1
+        if (-not $fxc) {
+          echo "::error::Could not find fxc.exe in Windows Kits"
+          exit 1
+        }
+        $dxsdkRoot = Join-Path $env:RUNNER_TEMP "dxsdk"
+        $fxcDir = Join-Path $dxsdkRoot "Utilities\bin\x86"
+        New-Item -ItemType Directory -Force -Path $fxcDir | Out-Null
+        Copy-Item $fxc.FullName (Join-Path $fxcDir "fxc.exe") -Force
+        echo "DXSDK_DIR=$dxsdkRoot\" >> $env:GITHUB_ENV
+      shell: pwsh
+
+    - name: Generate Solution
+      run: |
+        .\premake5.exe vs2022
+      shell: cmd
+
+    - name: Build SkyGfxVC
+      run: |
+        msbuild build\skygfx_vc.sln /p:Configuration=Release /p:Platform=Win32 /m
+      shell: cmd
+
+    - name: Prepare Release
+      run: |
+        Copy-Item "bin\Release\skygfx.dll" "bin\Release\skygfx.asi"
+        Copy-Item "external\rwd3d9\libs\rwd3d9.dll" "bin\Release\rwd3d9.dll"
+      shell: pwsh
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v6
+      with:
+        name: SkyGfxVC
+        path: |
+          bin/Release/skygfx.asi
+          bin/Release/rwd3d9.dll
