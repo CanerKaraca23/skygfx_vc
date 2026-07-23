@@ -11,12 +11,12 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         submodules: recursive
 
     - name: Checkout plugin-sdk for RWSDK headers
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         repository: DK22Pac/plugin-sdk
         path: plugin-sdk
@@ -25,7 +25,7 @@ jobs:
         sparse-checkout-cone-mode: false
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
 
     - name: Setup Environment
       run: |
@@ -51,7 +51,7 @@ jobs:
 
     - name: Build SkyGfxVC
       run: |
-        msbuild build\skygfx_vc.sln /p:Configuration=Release /p:Platform=Win32 /m
+        msbuild build\skygfx_vc.slnx /p:Configuration=Release /p:Platform=Win32 /m
       shell: cmd
 
     - name: Prepare Release
@@ -61,7 +61,7 @@ jobs:
       shell: pwsh
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: SkyGfxVC
         path: |
