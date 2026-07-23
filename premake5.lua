@@ -5,14 +5,13 @@ workspace "skygfx_vc"
     location "build"
 
     -- ---------------------------------------------------------
-    -- GENEL AYARLAR (Tüm Proje)
+    -- GENEL AYARLAR (Legacy Uyumluluk)
     -- ---------------------------------------------------------
     language "C++"
-    cppdialect "C++latest"
+    -- SkyGfx eski olduğu için C++14 standardına düşürüldü
     multiprocessorcompile "On"
     warnings "Extra"
 
-    -- Klasörleri tek bir satırda birleştirerek kalabalığı önledik
     files { "shaders/*.*", "src/*.*" }
     includedirs { "shaders", "src", os.getenv("RWSDK34") }
     includedirs { "external/injector/include", "external/rwd3d9/source", "../rwd3d9/source" }
@@ -31,12 +30,9 @@ project "skygfx_vc"
     targetextension ".dll"
     characterset "MBCS"
 
-    -- SkyGfx'in orjinalinde olan kilit mekanizmasını kapatma (Tüm buildler için geçerli)
-    buildoptions { "/Zc:threadSafeInit-" }
+    -- SkyGfx threadSafeInit ve strictStrings hatalarını esnetme
+    buildoptions { "/Zc:threadSafeInit-", "/Zc:strictStrings-" }
 
-    -- ---------------------------------------------------------
-    -- DEBUG YAPILANDIRMALARI (aap'nin orjinal yolları duruyor)
-    -- ---------------------------------------------------------
     filter "configurations:DebugIII"
         defines { "DEBUG" }
         symbols "On"
@@ -51,20 +47,17 @@ project "skygfx_vc"
         debugcommand "C:/Users/aap/games/gtavc/gta_vc.exe"
         postbuildcommands "copy /y \"$(TargetPath)\" \"C:\\Users\\aap\\games\\gtavc\\plugins\\skygfx.dll\""
 
-    -- ---------------------------------------------------------
-    -- RELEASE YAPILANDIRMASI (Bizim Efsanevi Kodlar)
-    -- ---------------------------------------------------------
     filter "configurations:Release"
         defines { "NDEBUG" }
         
+        -- Hız aşırtma ayarlarımız (Uyumluluk için exceptionhandling ON yapıldı)
         optimize "Speed"
         floatingpoint "Fast"
         linktimeoptimization "On"
         vectorextensions "AVX2"
         largeaddressaware "On"
         rtti "Off"
-        exceptionhandling "Off"
+        exceptionhandling "On"
         symbols "Off"
         omitframepointer "On"
-        -- Premake bu bloğu üstteki /Zc:threadSafeInit- ile otomatik birleştirir.
         buildoptions { "/Gw", "/Qpar", "/Zc:preprocessor" }
