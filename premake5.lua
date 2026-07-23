@@ -1,54 +1,70 @@
 workspace "skygfx_vc"
-	configurations { "Release", "DebugIII", "DebugVC" }
-	location "build"
+    system "Windows"
+    architecture "x86"
+    configurations { "Release", "DebugIII", "DebugVC" }
+    location "build"
 
-	files { "shaders/*.*" }
-	files { "src/*.*" }
+    -- ---------------------------------------------------------
+    -- GENEL AYARLAR (Tüm Proje)
+    -- ---------------------------------------------------------
+    language "C++"
+    cppdialect "C++latest"
+    multiprocessorcompile "On"
+    warnings "Extra"
 
-	includedirs { "shaders" }
-	includedirs { "src" }
-	includedirs { os.getenv("RWSDK34") }
-
-	includedirs { "external/injector/include" }
-	includedirs { "external/rwd3d9/source" }
-	includedirs { "../rwd3d9/source" }
-	libdirs { "external/rwd3d9/libs" }
-	libdirs { "../rwd3d9/libs" }
-	links { "rwd3d9.lib" }
+    -- Klasörleri tek bir satırda birleştirerek kalabalığı önledik
+    files { "shaders/*.*", "src/*.*" }
+    includedirs { "shaders", "src", os.getenv("RWSDK34") }
+    includedirs { "external/injector/include", "external/rwd3d9/source", "../rwd3d9/source" }
+    libdirs { "external/rwd3d9/libs", "../rwd3d9/libs" }
+    links { "rwd3d9.lib" }
    
-	prebuildcommands {
-		"for /R \"../shaders/ps/\" %%f in (*.hlsl) do \"%DXSDK_DIR%/Utilities/bin/x86/fxc.exe\" /T ps_2_0 /nologo /E main /Fh ../shaders/%%~nf.h %%f",
-		"for /R \"../shaders/vs/\" %%f in (*.hlsl) do \"%DXSDK_DIR%/Utilities/bin/x86/fxc.exe\" /T vs_2_0 /nologo /E main /Fh ../shaders/%%~nf.h %%f",
-	}
-	  
+    prebuildcommands {
+        "for /R \"../shaders/ps/\" %%f in (*.hlsl) do \"%DXSDK_DIR%/Utilities/bin/x86/fxc.exe\" /T ps_2_0 /nologo /E main /Fh ../shaders/%%~nf.h %%f",
+        "for /R \"../shaders/vs/\" %%f in (*.hlsl) do \"%DXSDK_DIR%/Utilities/bin/x86/fxc.exe\" /T vs_2_0 /nologo /E main /Fh ../shaders/%%~nf.h %%f",
+    }
+      
 project "skygfx_vc"
-	kind "SharedLib"
-	language "C++"
-	targetname "skygfx"
-	targetdir "bin/%{cfg.buildcfg}"
-	targetextension ".dll"
-	characterset ("MBCS")
+    kind "SharedLib"
+    targetname "skygfx"
+    targetdir "bin/%{cfg.buildcfg}"
+    targetextension ".dll"
+    characterset "MBCS"
 
-	buildoptions { "/Zc:threadSafeInit-" }
+    -- SkyGfx'in orjinalinde olan kilit mekanizmasını kapatma (Tüm buildler için geçerli)
+    buildoptions { "/Zc:threadSafeInit-" }
 
-	filter "configurations:DebugIII"
-		defines { "DEBUG" }
-		staticruntime "On"
-		symbols "On"
-		debugdir "C:/Users/aap/games/gta3"
-		debugcommand "C:/Users/aap/games/gta3/gta3.exe"
-		postbuildcommands "copy /y \"$(TargetPath)\" \"C:\\Users\\aap\\games\\gta3\\plugins\\skygfx.dll\""
+    -- ---------------------------------------------------------
+    -- DEBUG YAPILANDIRMALARI (aap'nin orjinal yolları duruyor)
+    -- ---------------------------------------------------------
+    filter "configurations:DebugIII"
+        defines { "DEBUG" }
+        symbols "On"
+        debugdir "C:/Users/aap/games/gta3"
+        debugcommand "C:/Users/aap/games/gta3/gta3.exe"
+        postbuildcommands "copy /y \"$(TargetPath)\" \"C:\\Users\\aap\\games\\gta3\\plugins\\skygfx.dll\""
 
-	filter "configurations:DebugVC"
-		defines { "DEBUG" }
-		staticruntime "On"
-		symbols "On"
-		debugdir "C:/Users/aap/games/gtavc"
-		debugcommand "C:/Users/aap/games/gtavc/gta_vc.exe"
-		postbuildcommands "copy /y \"$(TargetPath)\" \"C:\\Users\\aap\\games\\gtavc\\plugins\\skygfx.dll\""
+    filter "configurations:DebugVC"
+        defines { "DEBUG" }
+        symbols "On"
+        debugdir "C:/Users/aap/games/gtavc"
+        debugcommand "C:/Users/aap/games/gtavc/gta_vc.exe"
+        postbuildcommands "copy /y \"$(TargetPath)\" \"C:\\Users\\aap\\games\\gtavc\\plugins\\skygfx.dll\""
 
-	filter "configurations:Release"
-		defines { "NDEBUG" }
-		optimize "On"
-		symbols "On"
-		staticruntime "On"
+    -- ---------------------------------------------------------
+    -- RELEASE YAPILANDIRMASI (Bizim Efsanevi Kodlar)
+    -- ---------------------------------------------------------
+    filter "configurations:Release"
+        defines { "NDEBUG" }
+        
+        optimize "Speed"
+        floatingpoint "Fast"
+        linktimeoptimization "On"
+        vectorextensions "AVX2"
+        largeaddressaware "On"
+        rtti "Off"
+        exceptionhandling "Off"
+        symbols "Off"
+        omitframepointer "On"
+        -- Premake bu bloğu üstteki /Zc:threadSafeInit- ile otomatik birleştirir.
+        buildoptions { "/Gw", "/Qpar", "/Zc:preprocessor" }
