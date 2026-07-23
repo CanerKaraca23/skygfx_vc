@@ -9,6 +9,7 @@ workspace "skygfx_vc"
     multiprocessorcompile "On"
     warnings "Extra"
     disablewarnings { "4458", "4706", "4201", "4740" }
+    buildoptions { "/Zc:threadSafeInit-" }
 
     files { "shaders/*.*", "src/*.*" }
     includedirs { "shaders", "src", os.getenv("RWSDK34") }
@@ -54,7 +55,6 @@ project "skygfx_vc"
         defines { "NDEBUG" }
         
         optimize "Speed"
-        floatingpoint "Fast"
         linktimeoptimization "On"
         vectorextensions "AVX2"
         largeaddressaware "On"
@@ -62,4 +62,4 @@ project "skygfx_vc"
         exceptionhandling "On"
         symbols "Off"
         omitframepointer "On"
-        buildoptions { "/Gw", "/Qpar", "/Zc:preprocessor" }
+        buildoptions { "/Gw", "/Zc:preprocessor" }
