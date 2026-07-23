@@ -8,7 +8,7 @@ workspace "skygfx_vc"
     cppdialect "C++latest"
     multiprocessorcompile "On"
     warnings "Extra"
-    disablewarnings { "4458", "4706", "4201" }
+    disablewarnings { "4458", "4706", "4201", "4740" }
 
     files { "shaders/*.*", "src/*.*" }
     includedirs { "shaders", "src", os.getenv("RWSDK34") }
