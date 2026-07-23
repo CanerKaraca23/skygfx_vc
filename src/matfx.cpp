@@ -55,7 +55,7 @@ _rpMatFXD3D8AtomicMatFXDefaultRender(RxD3D8InstanceData *inst, int flags, RwText
 
 
 static addr rpMatFXD3D8AtomicMatFXEnvRender_A = AddressByVersion<addr>(0x5CF6C0, 0x5CF980, 0x5D8F7C, 0x674EE0, 0x674F30, 0x673E90);
-WRAPPER int rpMatFXD3D8AtomicMatFXEnvRender(RxD3D8InstanceData* a1, int a2, int a3, RwTexture* a4, RwTexture* a5)
+WRAPPER int rpMatFXD3D8AtomicMatFXEnvRender(RxD3D8InstanceData* /*a1*/, int /*a2*/, int /*a3*/, RwTexture* /*a4*/, RwTexture* /*a5*/)
 {
 	if (gtaversion != III_STEAM)
 		VARJMP(rpMatFXD3D8AtomicMatFXEnvRender_A);
@@ -79,7 +79,7 @@ int &MatFXAtomicDataOffset = *AddressByVersion<int*>(0x66189C, 0x66189C, 0x67193
 
 
 addr ApplyEnvMapTextureMatrix_A = AddressByVersion<addr>(0x5CFD40, 0x5D0000, 0x5D89E0, 0x6755D0, 0x675620, 0x674580);
-WRAPPER void ApplyEnvMapTextureMatrix(RwTexture* a1, int a2, RwFrame* a3)
+WRAPPER void ApplyEnvMapTextureMatrix(RwTexture* /*a1*/, int /*a2*/, RwFrame* /*a3*/)
 {
 	if (gtaversion != III_STEAM){
 		VARJMP(ApplyEnvMapTextureMatrix_A);
@@ -196,10 +196,10 @@ bool envdebug = false;
 
 
 static addr _rpMatFXD3D8AtomicMatFXBumpMapRender_A = AddressByVersion<addr>(0x5CFE40, 0, 0, 0x6756F0, 0, 0);
-WRAPPER void _rpMatFXD3D8AtomicMatFXBumpMapRender(RxD3D8InstanceData *inst, int flags, RwTexture *texture, RwTexture *bumpMap, RwTexture *envMap) { VARJMP(_rpMatFXD3D8AtomicMatFXBumpMapRender_A); }
+WRAPPER void _rpMatFXD3D8AtomicMatFXBumpMapRender(RxD3D8InstanceData * /*inst*/, int /*flags*/, RwTexture * /*texture*/, RwTexture * /*bumpMap*/, RwTexture * /*envMap*/) { VARJMP(_rpMatFXD3D8AtomicMatFXBumpMapRender_A); }
 
 static addr _rpMatFXD3D8AtomicMatFXDualPassRender_A = AddressByVersion<addr>(0x5CED20, 0, 0, 0x674510, 0, 0);
-WRAPPER void _rpMatFXD3D8AtomicMatFXDualPassRender(RxD3D8InstanceData *inst, int flags, RwTexture *texture, RwTexture *dualTexture) { VARJMP(_rpMatFXD3D8AtomicMatFXDualPassRender_A); }
+WRAPPER void _rpMatFXD3D8AtomicMatFXDualPassRender(RxD3D8InstanceData * /*inst*/, int /*flags*/, RwTexture * /*texture*/, RwTexture * /*dualTexture*/) { VARJMP(_rpMatFXD3D8AtomicMatFXDualPassRender_A); }
 
 void
 _rpMatFXD3D8AtomicMatFXEnvRender_ps2(RxD3D8InstanceData *inst, int flags, int sel, RwTexture *texture, RwTexture *envMap)
@@ -280,7 +280,7 @@ else
 	
 	ApplyEnvMapTextureMatrix(envMap, 0, env->envFrame);
 	RwRenderStateSet(rwRENDERSTATEVERTEXALPHAENABLE, (void*)1);
-	RwUInt32 src, dst, lighting, zwrite, fog, fogcol;
+	RwUInt32 src, dst, lighting, zwrite, fog, fogcol = 0;
 	RwRenderStateGet(rwRENDERSTATESRCBLEND, &src);
 	RwRenderStateGet(rwRENDERSTATEDESTBLEND, &dst);
 
@@ -473,7 +473,7 @@ else
 	RwD3D9SetVertexShader(flags&rpGEOMETRYLIGHT ? lightingShader : nolightEnvOnlyVS);
 
 	RwRenderStateSet(rwRENDERSTATEVERTEXALPHAENABLE, (void*)1);
-	RwUInt32 src, dst, zwrite, fog, fogcol;
+	RwUInt32 src, dst, zwrite, fog, fogcol = 0;
 	RwRenderStateGet(rwRENDERSTATESRCBLEND, &src);
 	RwRenderStateGet(rwRENDERSTATEDESTBLEND, &dst);
 
@@ -626,7 +626,7 @@ void
 MatFXShaderSetup(RwMatrix *world, RwUInt32 flags)
 {
 	int lighting = !!(flags & rpGEOMETRYLIGHT);
-	DirectX::XMMATRIX worldMat, viewMat, projMat, texMat;
+	DirectX::XMMATRIX worldMat, viewMat, projMat;
 	RwCamera *cam = RwCameraGetCurrentCamera();
 
 	RwMatrix view;

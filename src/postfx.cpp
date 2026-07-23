@@ -44,6 +44,7 @@ makequad(RwCamera *cam, RwIm2DVertex *v, int width, int height, int texwidth = 0
 	th = texheight > 0 ? texheight : h;
 
 	const float nearz = RwIm2DGetNearScreenZ();
+	(void)nearz;
 	const float recipz = 1.0f/RwCameraGetNearClipPlane(cam);
 
 	RwIm2DVertexSetScreenX(&v[0], 0);
@@ -106,7 +107,7 @@ CMBlur::Initialise(void)
 /* PS2 code. frame*blurcolour is added to frame, equivalent to multiplication by 255+blurcolour, i.e. it can only brighten.
  * LCS PSP multiplies final frame with 255-blurcolour, i.e. it can only darken. */
 void
-CMBlur::OverlayRender_leeds(RwCamera *cam, RwRaster *frontbuf, RwRGBA *col, uint8 type)
+CMBlur::OverlayRender_leeds(RwCamera *cam, RwRaster *frontbuf, RwRGBA *col, uint8 /*type*/)
 {
 	int i;
 	int bufw, bufh;
@@ -391,7 +392,7 @@ CMBlur::MotionBlurRender_leeds(RwCamera *cam, uint8 red, uint8 green, uint8 blue
 }
 
 void
-CMBlur::MotionBlurRender_mobile(RwCamera *cam, uint8 red, uint8 green, uint8 blue, uint8 alpha, uint8 type)
+CMBlur::MotionBlurRender_mobile(RwCamera *cam, uint8 red, uint8 green, uint8 blue, uint8 /*alpha*/, uint8 /*type*/)
 {
 	int bufw, bufh;
 	int screenw, screenh;

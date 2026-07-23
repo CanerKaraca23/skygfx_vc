@@ -14,7 +14,7 @@ PluginAttach_hook(void)
 
 RwInt32 GlossOffset;
 
-void *GlossConstructor(void *object, RwInt32 offsetInObject, RwInt32 sizeInObject)
+void *GlossConstructor(void *object, RwInt32 /*offsetInObject*/, RwInt32 /*sizeInObject*/)
 {
 	GlossMatExt *glossext = GETGLOSSEXT(object);
 	glossext->didLookup = false;
@@ -22,12 +22,12 @@ void *GlossConstructor(void *object, RwInt32 offsetInObject, RwInt32 sizeInObjec
 	return object;
 }
 
-void *GlossDestructor(void *object, RwInt32 offsetInObject, RwInt32 sizeInObject)
+void *GlossDestructor(void *object, RwInt32 /*offsetInObject*/, RwInt32 /*sizeInObject*/)
 {
 	return object;
 }
 
-void *GlossCopy(void *dstObject, const void *srcObject, RwInt32 offsetInObject, RwInt32 sizeInObject)
+void *GlossCopy(void *dstObject, const void *srcObject, RwInt32 /*offsetInObject*/, RwInt32 /*sizeInObject*/)
 {
 	*GETGLOSSEXT(dstObject) = *GETGLOSSEXT(srcObject);
 	return dstObject;

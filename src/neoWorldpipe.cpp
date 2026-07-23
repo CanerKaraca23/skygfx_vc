@@ -181,7 +181,7 @@ NeoWorldPipe::RenderMeshSetUp(RxD3D8InstanceData *inst)
 
 // Not really used as we should have a pixel shader
 void
-NeoWorldPipe::RenderMeshCombinerSetUp(RxD3D8InstanceData *inst, RwUInt32 flags)
+NeoWorldPipe::RenderMeshCombinerSetUp(RxD3D8InstanceData *inst, RwUInt32 /*flags*/)
 {
 	RwD3D8SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	RwD3D8SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);

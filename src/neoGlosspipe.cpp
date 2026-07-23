@@ -10,7 +10,7 @@ void *GlossPipe::pixelShader;
 // Hooks
 //
 void __declspec(naked)
-defaultRenderOneRoad(void *ent)
+defaultRenderOneRoad(void * /*ent*/)
 {
 	// easier in asm
 	// ent->vmt->Render()
@@ -25,7 +25,7 @@ defaultRenderOneRoad(void *ent)
 }
 
 static addr CRenderer__RenderOneRoad_A = (addr)defaultRenderOneRoad;
-WRAPPER void CRenderer__RenderOneRoad(void *e) { VARJMP(CRenderer__RenderOneRoad_A); }
+WRAPPER void CRenderer__RenderOneRoad(void * /*e*/) { VARJMP(CRenderer__RenderOneRoad_A); }
 void CRenderer__RenderOneRoad_hook(void *e)
 {
 	RpAtomic *a = *(RpAtomic**)((uchar*)e + 0x4C);

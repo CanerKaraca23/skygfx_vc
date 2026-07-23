@@ -68,7 +68,7 @@ NeoCarPipe::SetupEnvMap(void)
 void
 NeoCarPipe::MakeQuadTexCoords(bool textureSpace)
 {
-	float minU, minV, maxU, maxV;
+	float minU = 0.0f, minV = 0.0f, maxU = 0.0f, maxV = 0.0f;
 	if(textureSpace){
 		minU = minV = 0.0f;
 		maxU = maxV = 1.0f;

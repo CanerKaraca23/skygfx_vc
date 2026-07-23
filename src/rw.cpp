@@ -11,7 +11,7 @@ WRAPPER RwTexture *RwTextureRead(const RwChar*, const RwChar*) { VARJMP(RwTextur
 static uint32_t RwTexDictionaryGetCurrent_A = AddressByVersion<uint32_t>(0x5A7570, 0x5A7830, 0x5A8DA0, 0x64E100, 0, 0);
 WRAPPER RwTexDictionary *RwTexDictionaryGetCurrent(void) { VARJMP(RwTexDictionaryGetCurrent_A); }
 static uint32_t RwTexDictionarySetCurrent_A = AddressByVersion<uint32_t>(0x5A7550, 0x5A7810, 0x5A8D80, 0x64E0E0, 0, 0);
-WRAPPER RwTexDictionary *RwTexDictionarySetCurrent(RwTexDictionary * dict) { VARJMP(RwTexDictionarySetCurrent_A); }
+WRAPPER RwTexDictionary *RwTexDictionarySetCurrent(RwTexDictionary * /*dict*/) { VARJMP(RwTexDictionarySetCurrent_A); }
 static uint32_t RwTexDictionaryForAllTextures_A = AddressByVersion<uint32_t>(0, 0, 0, 0x64DE20, 0, 0);
 WRAPPER const RwTexDictionary *RwTexDictionaryForAllTextures(const RwTexDictionary*, RwTextureCallBack, void*) { VARJMP(RwTexDictionaryForAllTextures_A); }
 
@@ -49,7 +49,7 @@ WRAPPER RwMatrix *RwMatrixUpdate(RwMatrix*) { VARJMP(RwMatrixUpdate_A); }
 static uint32_t RwMatrixRotate_A = AddressByVersion<uint32_t>(0x5A2BF0, 0x5A2EB0, 0x5A3510, 0x643EA0, 0x643EF0, 0x642E50);
 WRAPPER RwMatrix *RwMatrixRotate(RwMatrix*, const RwV3d*, RwReal, RwOpCombineType) { VARJMP(RwMatrixRotate_A); }
 static uint32_t RwMatrixOptimize_A = AddressByVersion<uint32_t>(0x5A2820, 0, 0, 0x6436F0, 0, 0);
-WRAPPER RwMatrix *RwMatrixOptimize(RwMatrix *matrix, const RwMatrixTolerance *tolerance) { VARJMP(RwMatrixOptimize_A); }
+WRAPPER RwMatrix *RwMatrixOptimize(RwMatrix * /*matrix*/, const RwMatrixTolerance * /*tolerance*/) { VARJMP(RwMatrixOptimize_A); }
 
 static uint32_t RwFrameCreate_A = AddressByVersion<uint32_t>(0x5A1A00, 0x5A1CC0, 0x5A2270, 0x644AA0, 0x644AF0, 0x643A50);
 WRAPPER RwFrame *RwFrameCreate(void) { VARJMP(RwFrameCreate_A); }
@@ -123,7 +123,7 @@ WRAPPER RwBool RwD3D8SetTextureStageState(RwUInt32, RwUInt32, RwUInt32) { VARJMP
 static uint32_t RwD3D8SetVertexShader_A = AddressByVersion<uint32_t>(0x5BAF90, 0x5BB250, 0x5BF440, 0x65F2F0, 0x65F340, 0x65E2A0);
 WRAPPER RwBool RwD3D8SetVertexShader(RwUInt32) { VARJMP(RwD3D8SetVertexShader_A); }
 static uint32_t RwD3D8SetPixelShader_A = AddressByVersion<uint32_t>(0x5BAFD0, 0x5BB290, 0x5BF4A0, 0x65F330, 0x65F380, 0x65E2E0);
-WRAPPER RwBool RwD3D8SetPixelShader(RwUInt32 handle) { VARJMP(RwD3D8SetPixelShader_A); }
+WRAPPER RwBool RwD3D8SetPixelShader(RwUInt32 /*handle*/) { VARJMP(RwD3D8SetPixelShader_A); }
 static uint32_t RwD3D8SetStreamSource_A = AddressByVersion<uint32_t>(0x5BB010, 0x5BB2D0, 0x5BF500, 0x65F370, 0x65F3C0, 0x65E320);
 WRAPPER RwBool RwD3D8SetStreamSource(RwUInt32, void*, RwUInt32) { VARJMP(RwD3D8SetStreamSource_A); }
 static uint32_t RwD3D8SetIndices_A = AddressByVersion<uint32_t>(0x5BB060, 0x5BB320, 0x5BF590, 0x65F3C0, 0x65F410, 0x65E370);
@@ -135,7 +135,7 @@ WRAPPER RwBool RwD3D8DrawPrimitive(RwUInt32, RwUInt32, RwUInt32) { VARJMP(RwD3D8
 static uint32_t RwD3D8SetSurfaceProperties_A = AddressByVersion<uint32_t>(0x5BB490, 0x5BB750, 0x5BFB30, 0x65F7F0, 0x65F840, 0x65E7A0);
 WRAPPER RwBool RwD3D8SetSurfaceProperties(const RwRGBA*, const RwSurfaceProperties*, RwBool) { VARJMP(RwD3D8SetSurfaceProperties_A); }
 static uint32_t RwD3D8SetTransform_A = AddressByVersion<uint32_t>(0x5BB1D0, 0x5BB490, 0x5BF768, 0x65F530, 0x65F580, 0x65E4E0);
-WRAPPER RwBool RwD3D8SetTransform(RwUInt32 a1, const void* a2)
+WRAPPER RwBool RwD3D8SetTransform(RwUInt32 /*a1*/, const void* /*a2*/)
 {
 	if (gtaversion != III_STEAM)
 		VARJMP(RwD3D8SetTransform_A);
@@ -156,7 +156,7 @@ WRAPPER void RwD3D8GetTransform(RwUInt32, void*) { VARJMP(RwD3D8GetTransform_A);
 static uint32_t rwD3D8RenderStateIsVertexAlphaEnable_A = AddressByVersion<uint32_t>(0x5B5A50, 0x5B5D10, 0x5BA970, 0x659F60, 0x659FB0, 0x658F10);
 WRAPPER RwBool rwD3D8RenderStateIsVertexAlphaEnable(void) { VARJMP(rwD3D8RenderStateIsVertexAlphaEnable_A); };
 static uint32_t rwD3D8RenderStateVertexAlphaEnable_A = AddressByVersion<uint32_t>(0x5B57E0, 0x5B5AA0, 0x5BA840, 0x659CF0, 0x659D40, 0x658CA0);
-WRAPPER void rwD3D8RenderStateVertexAlphaEnable(RwBool x) { VARJMP(rwD3D8RenderStateVertexAlphaEnable_A); };
+WRAPPER void rwD3D8RenderStateVertexAlphaEnable(RwBool /*x*/) { VARJMP(rwD3D8RenderStateVertexAlphaEnable_A); };
 static uint32_t RpAtomicGetWorldBoundingSphere_A = AddressByVersion<uint32_t>(0x59E800, 0x59EAC0, 0x59EB20, 0x640710, 0x640760, 0x63F6C0);
 WRAPPER const RwSphere *RpAtomicGetWorldBoundingSphere(RpAtomic*) { VARJMP(RpAtomicGetWorldBoundingSphere_A); };
 static uint32_t RwD3D8CameraIsSphereFullyInsideFrustum_A = AddressByVersion<uint32_t>(0x5BBC40, 0x5BBF00, 0x5C0450, 0x65FFB0, 0x660000, 0x65EF60);

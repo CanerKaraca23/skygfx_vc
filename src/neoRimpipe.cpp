@@ -71,7 +71,7 @@ public:
 	}
 };
 addr CPed::SetModelIndex_A;
-WRAPPER void CPed::SetModelIndex(int id) { VARJMP(SetModelIndex_A); }
+WRAPPER void CPed::SetModelIndex(int /*id*/) { VARJMP(SetModelIndex_A); }
 
 void
 neoRimPipeInit(void)
@@ -158,7 +158,7 @@ RimPipe::LoadTweakingTable(void)
 //
 
 void
-RimPipe::ShaderSetup(RwMatrix *world, RwUInt32 flags)
+RimPipe::ShaderSetup(RwMatrix * /*world*/, RwUInt32 flags)
 {
 	int lighting = !!(flags & rpGEOMETRYLIGHT);
 

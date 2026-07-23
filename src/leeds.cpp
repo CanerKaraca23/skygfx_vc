@@ -23,7 +23,7 @@ float &CTimeCycle__m_fCurrentAmbientGreen = *AddressByVersion<float*>(0, 0, 0, 0
 float &CTimeCycle__m_fCurrentAmbientBlue = *AddressByVersion<float*>(0, 0, 0, 0xA0FCA8, 0, 0);
 
 RwBool
-leedsSetSurfaceProps(RwRGBA *color, RwSurfaceProperties *surfProps, RwUInt32 flags)
+leedsSetSurfaceProps(RwRGBA *color, RwSurfaceProperties * /*surfProps*/, RwUInt32 /*flags*/)
 {
 	static D3DCOLORVALUE black = { 0, 0, 0, 0 };
 	RwRGBA c = *color;
@@ -77,7 +77,7 @@ void
 LeedsWorldShaderSetup(RwMatrix *world, RwUInt32 flags)
 {
 	int lighting = !!(flags & rpGEOMETRYLIGHT);
-	DirectX::XMMATRIX worldMat, viewMat, projMat, texMat;
+	DirectX::XMMATRIX worldMat, viewMat, projMat;
 	RwCamera *cam = RwCameraGetCurrentCamera();
 
 	RwMatrix view;

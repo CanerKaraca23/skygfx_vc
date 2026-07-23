@@ -121,7 +121,7 @@ LeedsCarPipe::RenderReflectionScene(void)
 
 RwTexture **gpCoronaTexture = (RwTexture**)AddressByVersion<int*>(0x5FAF44, 0, 0, 0x695538, 0, 0);
 static uint32_t CGeneral__GetATanOfXY_A = AddressByVersion<uint32_t>(0x48CC30, 0, 0, 0x4A55E0, 0, 0);
-WRAPPER double CGeneral__GetATanOfXY(float x, float y) { VARJMP(CGeneral__GetATanOfXY_A); }
+WRAPPER double CGeneral__GetATanOfXY(float /*x*/, float /*y*/) { VARJMP(CGeneral__GetATanOfXY_A); }
 
 static RwIm2DVertex coronaVerts[4*4];
 static RwImVertexIndex coronaIndices[6*4];
@@ -267,7 +267,7 @@ static int setMaterialColor;	// multiply material color at vertex stage
 static int modulateMaterial;	// modulate by material color at texture stage
 
 void
-GetLeedsEnvMap(RpAtomic *atm, float *envmat)
+GetLeedsEnvMap(RpAtomic * /*atm*/, float *envmat)
 {
 	static RwMatrix scalenormal_flipU = {
 		{ -0.5f, 0.0f, 0.0f }, 0,
@@ -467,7 +467,7 @@ leedsCarRenderFFPMesh(RxD3D8InstanceData *inst, RwUInt32 flags)
 }
 
 void
-leedsCarRenderFFPEnvMesh(RxD3D8InstanceData *inst, RwUInt32 flags)
+leedsCarRenderFFPEnvMesh(RxD3D8InstanceData *inst, RwUInt32 /*flags*/)
 {
 	int fog, zwrite;
 

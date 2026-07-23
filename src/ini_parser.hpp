@@ -180,7 +180,7 @@ namespace linb
                         if(s.size())
                         {
                             // Ignore UTF-8 BOM
-                            while(s.size() >= 3 && s[0] == (char)(0xEF) && s[1] == (char)(0xBB) && s[2] == (char)(0xBF))
+                            while(s.size() >= 3 && (unsigned char)s[0] == 0xEF && (unsigned char)s[1] == 0xBB && (unsigned char)s[2] == 0xBF)
                                 s.erase(s.begin(), s.begin() + 3);
 
                             if(trimLeft)

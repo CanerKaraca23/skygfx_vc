@@ -60,7 +60,7 @@ bool d3d9;
 extern "C" {
 
 __declspec(dllexport) int
-SkyGFXGetVersion(const char *s)
+SkyGFXGetVersion(const char * /*s*/)
 {
 	return VERSION;
 }
@@ -527,7 +527,7 @@ void ps2srand(unsigned int seed)
 
 // BETA sliding in oddjob2 text for III, thanks Fire_Head for finding this
 float &OddJob2XOffset = *(float*)0x8F1B5C;
-WRAPPER void CFont__PrintString(float x, float y, short *str) { EAXJMP(0x500F50); }
+WRAPPER void CFont__PrintString(float /*x*/, float /*y*/, short * /*str*/) { EAXJMP(0x500F50); }
 void
 CFont__PrintString__Oddjob2(float x, float y, short *str)
 {
