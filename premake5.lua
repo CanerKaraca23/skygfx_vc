@@ -12,6 +12,18 @@ workspace "skygfx_vc"
     files { "shaders/*.*", "src/*.*" }
     includedirs { "shaders", "src", os.getenv("RWSDK34") }
     includedirs { "external/injector/include", "external/rwd3d9/source", "../rwd3d9/source" }
+    
+    -- Injector submodules (kananlib, bddisasm, safetyhook)
+    defines { "BDDISASM_HAS_MEMSET", "BDDISASM_HAS_VSNPRINTF" }
+    files { "external/injector/kananlib/include/utility/**.hpp", "external/injector/kananlib/src/**.cpp" }
+    files { "external/injector/bddisasm/bddisasm/*.c" }
+    files { "external/injector/bddisasm/bdshemu/*.c" }
+    files { "external/injector/safetyhook/src/*.cpp", "external/injector/safetyhook/src/*.c" }
+    includedirs { "external/injector/kananlib/include" }
+    includedirs { "external/injector/bddisasm/inc" }
+    includedirs { "external/injector/bddisasm/bddisasm/include" }
+    includedirs { "external/injector/safetyhook/include" }
+
     libdirs { "external/rwd3d9/libs", "../rwd3d9/libs" }
     links { "rwd3d9.lib" }
    
