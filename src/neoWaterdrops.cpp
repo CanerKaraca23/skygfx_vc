@@ -189,7 +189,7 @@ struct CPad
 	bool GetLookRight(void);
 };
 static uint32_t GetPad_A = AddressByVersion<uint32_t>(0x492F60, 0, 0, 0x4AB060, 0, 0);
-WRAPPER CPad *CPad::GetPad(int id) { VARJMP(GetPad_A); }
+WRAPPER CPad *CPad::GetPad(int /*id*/) { VARJMP(GetPad_A); }
 static uint32_t GetLookBehindForCar_A = AddressByVersion<uint32_t>(0x4932F0, 0, 0, 0x4AAC30, 0, 0);
 WRAPPER bool CPad::GetLookBehindForCar(void) { VARJMP(GetLookBehindForCar_A); }
 static uint32_t GetLookLeft_A = AddressByVersion<uint32_t>(0x493290, 0, 0, 0x4AAC90, 0, 0);
