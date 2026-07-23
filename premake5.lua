@@ -8,6 +8,7 @@ workspace "skygfx_vc"
     cppdialect "C++latest"
     multiprocessorcompile "On"
     warnings "Extra"
+    disablewarnings { "4458", "4706", "4201" }
 
     files { "shaders/*.*", "src/*.*" }
     includedirs { "shaders", "src", os.getenv("RWSDK34") }
@@ -15,10 +16,6 @@ workspace "skygfx_vc"
     
     -- Injector submodules (kananlib, bddisasm, safetyhook)
     defines { "BDDISASM_HAS_MEMSET", "BDDISASM_HAS_VSNPRINTF" }
-    files { "external/injector/kananlib/include/utility/**.hpp", "external/injector/kananlib/src/**.cpp" }
-    files { "external/injector/bddisasm/bddisasm/*.c" }
-    files { "external/injector/bddisasm/bdshemu/*.c" }
-    files { "external/injector/safetyhook/src/*.cpp", "external/injector/safetyhook/src/*.c" }
     includedirs { "external/injector/kananlib/include" }
     includedirs { "external/injector/bddisasm/inc" }
     includedirs { "external/injector/bddisasm/bddisasm/include" }
