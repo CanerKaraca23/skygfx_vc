@@ -46,10 +46,8 @@ jobs:
         echo "DXSDK_DIR=$dxsdkRoot\" >> $env:GITHUB_ENV
       shell: pwsh
 
-    - name: Generate Solution
-      run: |
-        .\premake5.exe vs2022
-      shell: cmd
+    - name: Run Premake5
+      run: .\premake5.exe vs2026
 
     - name: Build SkyGfxVC
       run: |
