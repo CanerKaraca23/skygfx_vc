@@ -1,5 +1,5 @@
 /* 
- *  Copyright (c) 2013-2015 Denilson das Mercês Amorim <dma_2012@hotmail.com>
+ *  Copyright (c) 2013-2015 Denilson das MercÃªs Amorim <dma_2012@hotmail.com>
  *  
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages
@@ -184,9 +184,9 @@ namespace linb
                                 s.erase(s.begin(), s.begin() + 3);
 
                             if(trimLeft)
-                                s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::function<int(int)>(::isspace))));
+                                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) { return !::isspace(c); }));
                             if(trimRight)
-                                s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::function<int(int)>(::isspace))).base(), s.end());
+                                s.erase(std::find_if(s.rbegin(), s.rend(), [](int c) { return !::isspace(c); }).base(), s.end());
                         }
                         return s;
                     };

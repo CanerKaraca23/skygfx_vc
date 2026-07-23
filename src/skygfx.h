@@ -259,8 +259,8 @@ struct SkyGFXConfig {
 };
 extern SkyGFXConfig config;
 
-void errorMessage(char *msg);
-char *getpath(char *path);
+void errorMessage(const char *msg);
+char *getpath(const char *path);
 RwImage *readTGA(const char *afilename);
 
 void DefinedState(void);

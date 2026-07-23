@@ -76,9 +76,9 @@ inline bool DebugMenuLoad(void)
 	HMODULE mod = LoadLibraryA("debugmenu");
 	if(mod == 0){
 		char modulePath[MAX_PATH];
-		HMODULE dllModule;
-		GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCTSTR)&gDebugMenuAPI, &dllModule);
-		GetModuleFileNameA(dllModule, modulePath, MAX_PATH);
+		HMODULE debugMenuDllModule;
+		GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&gDebugMenuAPI, &debugMenuDllModule);
+		GetModuleFileNameA(debugMenuDllModule, modulePath, MAX_PATH);
 		char *p = strchr(modulePath, '\\');
 		if(p) p[1] = '\0';
 		strcat(modulePath, "debugmenu");
