@@ -27,8 +27,6 @@ project "skygfx_vc"
     targetextension ".dll"
     characterset "Unicode"
 
-    buildoptions { "/Zc:threadSafeInit-" }
-
     filter "configurations:DebugIII"
         defines { "DEBUG" }
         symbols "On"
