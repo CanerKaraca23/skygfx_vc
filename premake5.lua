@@ -4,11 +4,8 @@ workspace "skygfx_vc"
     configurations { "Release", "DebugIII", "DebugVC" }
     location "build"
 
-    -- ---------------------------------------------------------
-    -- GENEL AYARLAR (Legacy Uyumluluk)
-    -- ---------------------------------------------------------
     language "C++"
-    -- SkyGfx eski olduğu için C++14 standardına düşürüldü
+    cppdialect "C++latest"
     multiprocessorcompile "On"
     warnings "Extra"
 
@@ -28,10 +25,9 @@ project "skygfx_vc"
     targetname "skygfx"
     targetdir "bin/%{cfg.buildcfg}"
     targetextension ".dll"
-    characterset "MBCS"
+    characterset "Unicode"
 
-    -- SkyGfx threadSafeInit ve strictStrings hatalarını esnetme
-    buildoptions { "/Zc:threadSafeInit-", "/Zc:strictStrings-" }
+    buildoptions { "/Zc:threadSafeInit-" }
 
     filter "configurations:DebugIII"
         defines { "DEBUG" }
@@ -50,7 +46,6 @@ project "skygfx_vc"
     filter "configurations:Release"
         defines { "NDEBUG" }
         
-        -- Hız aşırtma ayarlarımız (Uyumluluk için exceptionhandling ON yapıldı)
         optimize "Speed"
         floatingpoint "Fast"
         linktimeoptimization "On"
