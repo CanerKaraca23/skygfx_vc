@@ -325,7 +325,8 @@ RenderEverythingBarCarsPeds(void)
 	for(i = 0; i < CRenderer__ms_nNoOfVisibleEntities; i++){
 		ent = CRenderer__ms_aVisibleEntityPtrs[i];
 		type = FIELD(uint8, ent, 0x50)&7;
-		if(type != 1)	// building
+		// FIXED: Whitelists Buildings (1), Static Objects (3), AND Breakable Street Props (4)
+		if(type != 1 && type != 3 && type != 4)	
 			continue;
 		CRenderer__RenderOneRoad(ent);
 	}
@@ -346,7 +347,8 @@ RenderAlphaListBarCarsPeds(void)
 	    lnk = lnk->prev){
 		ent = lnk->item.entity;
 		type = FIELD(uint8, ent, 0x50)&7;
-		if(type != 1)	// building
+		// FIXED: Whitelists transparent Buildings (1), Static Objects (3), AND Breakable Street Props (4)
+		if(type != 1 && type != 3 && type != 4)	
 			continue;
 		CRenderer__RenderOneRoad(ent);
 	}
