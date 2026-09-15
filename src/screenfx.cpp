@@ -81,7 +81,7 @@ void
 ScreenFX::Initialise(void)
 {
 	RwRect r = { 0, 0, 0, 0};
-	int width, height;
+	int width = 0, height = 0;
 	// MULTIPLE INIT
 	if(RwD3D9Supported()){
 		#include "gradingPS.h"

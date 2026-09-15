@@ -14,7 +14,7 @@ void enableTrailsSetting(void);
 void patchWater(void);
 
 char*
-getpath(char *path)
+getpath(const char *path)
 {
 	static char tmppath[MAX_PATH];
 	FILE *f;
@@ -22,7 +22,7 @@ getpath(char *path)
 	f = fopen(path, "r");
 	if(f){
 		fclose(f);
-		return path;
+		return (char*)path;
 	}
 	strncpy(tmppath, asipath, MAX_PATH);
 	strcat(tmppath, path);
@@ -60,7 +60,7 @@ bool d3d9;
 extern "C" {
 
 __declspec(dllexport) int
-SkyGFXGetVersion(const char *s)
+SkyGFXGetVersion(const char * /*s*/)
 {
 	return VERSION;
 }
@@ -527,7 +527,7 @@ void ps2srand(unsigned int seed)
 
 // BETA sliding in oddjob2 text for III, thanks Fire_Head for finding this
 float &OddJob2XOffset = *(float*)0x8F1B5C;
-WRAPPER void CFont__PrintString(float x, float y, short *str) { EAXJMP(0x500F50); }
+WRAPPER void CFont__PrintString(float /*x*/, float /*y*/, short * /*str*/) { EAXJMP(0x500F50); }
 void
 CFont__PrintString__Oddjob2(float x, float y, short *str)
 {
@@ -603,10 +603,10 @@ RenderEffectsHook(void)
 
 int dontnag;
 void
-errorMessage(char *msg)
+errorMessage(const char *msg)
 {
 	if(dontnag) return;
-	MessageBox(NULL, msg, "Error - SkyGFX", MB_ICONERROR | MB_OK);
+	MessageBoxA(NULL, msg, "Error - SkyGFX", MB_ICONERROR | MB_OK);
 }
 
 #define ONCE do{ static int once = 0; assert(once == 0); once = 1; }while(0)
@@ -621,22 +621,22 @@ readhex(const char *str)
 }
 
 int
-readint(const std::string &s, int default = 0)
+readint(const std::string &s, int default_val = 0)
 {
 	try{
 		return std::stoi(s);
 	}catch(...){
-		return default;
+		return default_val;
 	}
 }
 
 float
-readfloat(const std::string &s, float default = 0)
+readfloat(const std::string &s, float default_val = 0)
 {
 	try{
 		return std::stof(s);
 	}catch(...){
-		return default;
+		return default_val;
 	}
 }
 
@@ -779,11 +779,11 @@ patch(void)
 
 	// Fail if RenderWare has already been started
 	if(Scene.camera){
-		MessageBox(NULL, "SkyGFX cannot be loaded by the default Mss32 ASI loader.\nUse another ASI loader.", "Error", MB_ICONERROR | MB_OK);
+		MessageBoxA(NULL, "SkyGFX cannot be loaded by the default Mss32 ASI loader.\nUse another ASI loader.", "Error", MB_ICONERROR | MB_OK);
 		return;
 	}
 
-	GetModuleFileName(dllModule, modulePath, MAX_PATH);
+	GetModuleFileNameA(dllModule, modulePath, MAX_PATH);
 	char *p = strrchr(modulePath, '\\');
 	if(p) p[1] = '\0';
 	strncpy(asipath, modulePath, MAX_PATH);

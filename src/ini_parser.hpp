@@ -1,5 +1,5 @@
 /* 
- *  Copyright (c) 2013-2015 Denilson das Mercês Amorim <dma_2012@hotmail.com>
+ *  Copyright (c) 2013-2015 Denilson das MercÃªs Amorim <dma_2012@hotmail.com>
  *  
  *  This software is provided 'as-is', without any express or implied
  *  warranty. In no event will the authors be held liable for any damages
@@ -180,13 +180,13 @@ namespace linb
                         if(s.size())
                         {
                             // Ignore UTF-8 BOM
-                            while(s.size() >= 3 && s[0] == (char)(0xEF) && s[1] == (char)(0xBB) && s[2] == (char)(0xBF))
+                            while(s.size() >= 3 && (unsigned char)s[0] == 0xEF && (unsigned char)s[1] == 0xBB && (unsigned char)s[2] == 0xBF)
                                 s.erase(s.begin(), s.begin() + 3);
 
                             if(trimLeft)
-                                s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::function<int(int)>(::isspace))));
+                                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) { return !::isspace(c); }));
                             if(trimRight)
-                                s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::function<int(int)>(::isspace))).base(), s.end());
+                                s.erase(std::find_if(s.rbegin(), s.rend(), [](int c) { return !::isspace(c); }).base(), s.end());
                         }
                         return s;
                     };
