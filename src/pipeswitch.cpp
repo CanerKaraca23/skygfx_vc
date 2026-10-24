@@ -226,12 +226,6 @@ WRAPPER void RenderScene(void) { VARJMP(RenderScene_A); }
 void
 RenderScene_hook(void)
 {
-	// This is needed because the game sets far after RwCameraBeginUpdate,
-	// so do it again here
-	RwCamera *cam = (RwCamera*)RWSRCGLOBAL(curCamera);
-	RwCameraEndUpdate(cam);
-	RwCameraBeginUpdate(cam);
-
 	RenderScene();
 	if(config.seamfix)
 		fixSeams();
